@@ -4,8 +4,6 @@ import matplotlib.pyplot as plt
 import librosa.display
 import os
 import csv
-import pandas
-from sklearn.preprocessing import Normalizer
 
 
 def display_music_waveform(data, sample_rate, label=None):
@@ -60,11 +58,5 @@ def generate_music_data(folder_name, out_file_name):
                 writer.writerow(to_append.split())
 
 
-def load_data(data_file_name):
-    data = pandas.read_csv(data_file_name)
-    data = data.drop(labels=["filename"], axis=1)
-    X = data.drop(labels=["label"], axis=1)
-    Y = data.loc[:, data.columns.isin(['label'])]
-    X = Normalizer(norm='l1').fit_transform(X)
-    return X, Y
+
 
