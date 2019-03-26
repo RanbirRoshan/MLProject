@@ -35,7 +35,8 @@ def generate_music_data(folder_name, out_file_name):
         writer = csv.writer(file)
         writer.writerow(header)
 
-    genres = 'blues classical country disco hiphop jazz metal pop reggae rock'.split()
+    # genres = 'blues classical country disco hiphop jazz metal pop reggae rock'.split()
+    genres = 'NonProg Prog'.split()
 
     for g in genres:
         for file_name in os.listdir(f'./'+folder_name+'/'+g):
@@ -48,11 +49,11 @@ def generate_music_data(folder_name, out_file_name):
             zcr = librosa.feature.zero_crossing_rate(x)
             mfcc = librosa.feature.mfcc(y=x, sr=sr)
             rmse = librosa.feature.rmse(y=x)
-            to_append = f'{file_name} {np.mean(chroma_stft)} {np.mean(rmse)} {np.mean(spec_cent)} {np.mean(spec_bw)} {np.mean(rolloff)} {np.mean(zcr)}'
+            to_append = f'{file_name.replace(" ", "")} {np.mean(chroma_stft)} {np.mean(rmse)} {np.mean(spec_cent)} {np.mean(spec_bw)} {np.mean(rolloff)} {np.mean(zcr)}'
             for e in mfcc:
                 to_append += f' {np.mean(e)}'
             to_append += f' {g}'
-            file = open('data.csv', 'a', newline='')
+            file = open(out_file_name, 'a', newline='')
             with file:
                 writer = csv.writer(file)
                 writer.writerow(to_append.split())
