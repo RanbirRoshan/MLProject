@@ -1,13 +1,10 @@
-import numpy as np
-import librosa
 from src.utility import musicUtility
 from src.utility import dataUtility
 from src.baseline_implementation import svm_implementaion
-import pandas
-from sklearn.preprocessing import Normalizer
+
 
 # define constants here
-data_file_name = 'music_csv_data\data_prof.csv'
+data_file_name = 'music_csv_data\data_prof.csv' #'music_csv_data\data.csv'
 
 # musicUtility.generate_music_data("TrainingData", data_file_name)
 
@@ -16,4 +13,4 @@ X_train, X_test, y_train, y_test = dataUtility.get_test_train_set(data_file_name
 
 
 # baseline implementations
-svm_implementaion.run_svm(X_train, X_test, y_train, y_test)
+svm_implementaion.run_svm(X_train, X_test, y_train, y_test, 3, 73, 10)
