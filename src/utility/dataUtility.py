@@ -12,7 +12,10 @@ def load_data(data_file_name, apply_feature_selection=False):
     Y = data.loc[:, data.columns.isin(['label'])]
     X = Normalizer(norm='l1').fit_transform(X)
     X = get_feature_importance_val(X, Y, apply_feature_selection)
-    return X, Y
+    is_multi_class = False
+    if data.label.unique().shape[0]>2:
+        is_multi_class = True
+    return X, Y, is_multi_class
 
 
 def get_test_train_set_split(X, Y, train_percent):
@@ -20,8 +23,9 @@ def get_test_train_set_split(X, Y, train_percent):
 
 
 def get_test_train_set(file_name, train_percent, apply_feature_selection=False):
-    x, y = load_data(file_name, apply_feature_selection)
-    return get_test_train_set_split(x, y, train_percent)
+    x, y, is_multi_class = load_data(file_name, apply_feature_selection)
+    X_train, X_test, y_train, y_test = get_test_train_set_split(x, y, train_percent)
+    return X_train, X_test, y_train, y_test, is_multi_class
 
 
 def get_feature_importance_val(X, Y, apply_feature_selection):
