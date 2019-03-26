@@ -13,7 +13,7 @@ def load_data(data_file_name):
 
 
 def get_test_train_set_split(X, Y, train_percent):
-    return train_test_split(X, Y, test_size=1-train_percent)
+    return train_test_split(X, Y, test_size=1-train_percent, shuffle=True)
 
 
 def get_test_train_set(file_name, train_percent):
