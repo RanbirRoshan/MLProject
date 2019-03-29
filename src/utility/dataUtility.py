@@ -3,6 +3,7 @@ from sklearn.preprocessing import Normalizer
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.feature_selection import SelectFromModel
+from sklearn.preprocessing import LabelEncoder
 
 
 def load_data(data_file_name, apply_feature_selection=False):
@@ -10,6 +11,9 @@ def load_data(data_file_name, apply_feature_selection=False):
     data = data.drop(labels=["filename"], axis=1)
     X = data.drop(labels=["label"], axis=1)
     Y = data.loc[:, data.columns.isin(['label'])]
+    le = LabelEncoder()
+    le.fit(Y)
+    Y = le.transform(Y)
     X = Normalizer(norm='l1').fit_transform(X)
     X = get_feature_importance_val(X, Y, apply_feature_selection)
     is_multi_class = False
@@ -30,7 +34,7 @@ def get_test_train_set(file_name, train_percent, apply_feature_selection=False):
 
 def get_feature_importance_val(X, Y, apply_feature_selection):
     clf = ExtraTreesClassifier(n_estimators=50)
-    clf = clf.fit(X, Y.values.ravel())
+    clf = clf.fit(X, Y)
     print("Feature Importance Values:")
     print(clf.feature_importances_)
     if not apply_feature_selection:
