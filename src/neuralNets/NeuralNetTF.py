@@ -1,4 +1,5 @@
 from src.neuralNets import  SingleLayerNN
+from sklearn.metrics import confusion_matrix
 
 
 class NeuralNet:
@@ -13,13 +14,23 @@ class NeuralNet:
         self.is_mc = is_multi_class
         self.mp = True
         self.validation_split = 0.1
-        self.verbose = 1 #0 = silent, 1 = progress bar, 2 = one line per epoch.
+        self.verbose = 2 #0 = silent, 1 = progress bar, 2 = one line per epoch.
 
 
     def Execute(self):
-        single_neuron_nn = SingleLayerNN.SingleLayerNN(26)
-        single_neuron_nn.fit(x=self.X_train,
-                             y=self.y_train,
-                             batch_size=self.batch_size,
-                             verbose=self.verbose,
-                             validation_split=self.validation_split)
+        print(self.X_train.shape[1])
+        single_neuron_nn = []
+
+        for j in range(self.X_train.shape[1], 1, -1):
+            for i in range (0,10):
+                nn = SingleLayerNN.SingleLayerNN(self.X_train.shape[1], i, j)
+                single_neuron_nn.append(nn)
+                nn.fit(x=self.X_train,
+                         y=self.y_train,
+                         batch_size=self.batch_size,
+                         epochs=self.epochs,
+                         verbose=self.verbose,
+                         validation_split=self.validation_split)
+                prediction = nn.predict(x=self.X_test)
+                print("*****Run:",i,",",j)
+                print(confusion_matrix(self.y_test, prediction))
