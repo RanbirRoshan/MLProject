@@ -28,7 +28,7 @@ def main():
 
     #start neural net executions
     nn = NeuralNet(batch_size, epochs, X_train, X_test, y_train, y_test, is_multi_class, lstm_batch_size, lstm_epochs)
-    nn.Execute()
+    #nn.Execute()
     nn.ExecuteLSTM(X_train_LSTM, X_testLSTM, y_train_LSTM, y_test_LSTM)
 
 

@@ -63,7 +63,7 @@ def get_feature_importance_val(X, Y, apply_feature_selection):
 
 def load_LSTM_file(file_name):
     data = just_load_data(file_name)
-    data = data[:4000]
+    data = data[:3421]
     return data.T
 
 

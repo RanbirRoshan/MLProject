@@ -1,5 +1,5 @@
 from src.neuralNets import  SingleLayerNN
-from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report, log_loss
 from src.neuralNets import LSTM
 
 
@@ -54,8 +54,10 @@ class NeuralNet:
                verbose=self.verbose,
                validation_split=self.validation_split)
         prediction = model.predict(x=X_test)
+        print ("Validation Score", log_loss(y_test, prediction))
         print(prediction.reshape(prediction.shape[0]))
         print(y_test)
         prediction = model.predict(x=X_train)
+        print ("Training Score", log_loss(y_train, prediction))
         print(prediction.reshape(prediction.shape[0]))
         print(y_train)
