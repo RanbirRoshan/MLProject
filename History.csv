@@ -1,3 +1,13 @@
-﻿Sequence,Input Size,LSTM,Dense Layer 1,,Dense Layer 2,,Dense Layer 1,,Test Score,Validation Score,Properties Used
-,,units,units,activation,units,activation,units,activation,,,
-1,38  * 3421,38,38,relu,19,relu,1,sigmoid,0.341991127,2.381973763,"mfcc, tonnetz, chroma_stft"
+﻿Sequence,Input Size,LSTM,Dense Layer 1,,Dense Layer 2,,Dense Layer 3,,Dense Layer 4,,Train Score,Validation Score,Properties Used,Note
+,,units,units,activation,units,activation,units,activation,units,activation,,,,
+1,38  * 3421,38,38,relu,19,relu,1,sigmoid,,,0.341991127,2.381973763,"mfcc, tonnetz, chroma_stft",
+2,38  * 3421,38,19,relu,19,relu,1,sigmoid,,,0.26219473,1.327027647,"mfcc, tonnetz, chroma_stft",
+3,38  * 3421,38,19,relu,9,relu,1,sigmoid,,,0.6,0.6,"mfcc, tonnetz, chroma_stft",Does Not Work
+4,38  * 3421,38,19,relu,19,relu,9,relu,1,sigmoid,0.226556431,2.674011067,"mfcc, tonnetz, chroma_stft",
+5,38  * 3421,38,19,relu,9,relu,9,relu,1,sigmoid,0.6,0.6,"mfcc, tonnetz, chroma_stft",Does Not Work
+6,,,,,,,,,,,,,,
+7,,,,,,,,,,,,,,
+8,,,,,,,,,,,,,,
+9,,,,,,,,,,,,,,
+10,,,,,,,,,,,,,,
+11,,,,,,,,,,,,,,

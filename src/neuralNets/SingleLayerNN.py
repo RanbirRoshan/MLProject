@@ -2,11 +2,12 @@ import keras
 from keras import regularizers
 from keras.layers.core import Dense
 from keras.constraints import UnitNorm,MinMaxNorm
-
+import random
 
 class SingleLayerNN(keras.Sequential):
     def __init__(self, input_size, layer_count, node_count):
         super(SingleLayerNN, self).__init__(name="Final_Model")
+        random.seed(20)
 
     def buildNN(self, input_size, layer_count, node_count):
         if layer_count == 0:

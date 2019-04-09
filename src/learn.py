@@ -4,15 +4,20 @@ from src.utility import TestJson
 from src.utility import dataUtility
 from src.baseline_implementation import baseline
 from src.neuralNets.NeuralNetTF import NeuralNet
+import random
 
 
 #constanst
-epochs = 350
+epochs = 20
 batch_size = 2
-lstm_epochs = 350
-lstm_batch_size = 2
+lstm_epochs = 20
+lstm_batch_size = 16
+cnn_epochs = 20
+cnn_batch_size = 16
 
 def main():
+
+    random.seed(a=5)
     # define constants here
     data_file_name = 'data_prof_temp.csv' #'data.csv'#
 
@@ -24,13 +29,13 @@ def main():
     X_train_LSTM, X_testLSTM, y_train_LSTM, y_test_LSTM, a = dataUtility.load_LSTM_data(data_file_name, 0.8, "music_csv_data")
 
     # baseline implementations
-    baseline.run_all_baselines(X_train, X_test, y_train, y_test, is_multi_class)
+    #baseline.run_all_baselines(X_train, X_test, y_train, y_test, is_multi_class)
 
     #start neural net executions
-    nn = NeuralNet(batch_size, epochs, X_train, X_test, y_train, y_test, is_multi_class, lstm_batch_size, lstm_epochs)
+    nn = NeuralNet(batch_size, epochs, X_train, X_test, y_train, y_test, is_multi_class, lstm_batch_size, lstm_epochs, cnn_batch_size, cnn_epochs)
     #nn.Execute()
-    nn.ExecuteLSTM(X_train_LSTM, X_testLSTM, y_train_LSTM, y_test_LSTM)
-
+    #nn.ExecuteLSTM(X_train_LSTM, X_testLSTM, y_train_LSTM, y_test_LSTM)
+    nn.ExecuteCNN(X_train_LSTM, X_testLSTM, y_train_LSTM, y_test_LSTM)
 
 if __name__ == '__main__':
     main()

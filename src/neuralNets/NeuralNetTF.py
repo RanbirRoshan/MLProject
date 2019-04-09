@@ -1,11 +1,12 @@
 from src.neuralNets import  SingleLayerNN
 from sklearn.metrics import classification_report, log_loss
 from src.neuralNets import LSTM
+from src.neuralNets import CNN
 
 
 class NeuralNet:
 
-    def __init__(self, batch_size, epochs, X_train, X_test, y_train, y_test, is_multi_class, lstm_batch_size, lstm_epochs):
+    def __init__(self, batch_size, epochs, X_train, X_test, y_train, y_test, is_multi_class, lstm_batch_size, lstm_epochs, cnn_batch_size, cnn_epochs):
         self.batch_size = batch_size
         self.epochs = epochs
         self.X_train = X_train
@@ -14,10 +15,12 @@ class NeuralNet:
         self.y_test = y_test
         self.is_mc = is_multi_class
         self.lstm_batch_size = lstm_batch_size
+        self.cnn_batch_size = cnn_batch_size
+        self.cnn_epochs = cnn_epochs
         self.lstm_epochs = lstm_epochs
         self.mp = True
-        self.validation_split = 0.1
-        self.verbose = 0 #0 = silent, 1 = progress bar, 2 = one line per epoch.
+        self.validation_split = 0.2
+        self.verbose = 2 #0 = silent, 1 = progress bar, 2 = one line per epoch.
 
 
     def Execute(self):
@@ -53,11 +56,25 @@ class NeuralNet:
                epochs=self.lstm_epochs,
                verbose=self.verbose,
                validation_split=self.validation_split)
-        prediction = model.predict(x=X_test)
-        print ("Validation Score", log_loss(y_test, prediction))
-        print(prediction.reshape(prediction.shape[0]))
-        print(y_test)
+        #prediction = model.predict(x=X_test)
+        #print ("Validation Score", log_loss(y_test, prediction))
+        #print(prediction.reshape(prediction.shape[0]))
+        #print(y_test)
         prediction = model.predict(x=X_train)
         print ("Training Score", log_loss(y_train, prediction))
+        print(prediction.reshape(prediction.shape[0]))
+        print(y_train)
+
+    def ExecuteCNN(self,  X_train, X_test, y_train, y_test):
+        model = CNN.GetCNNModel(X_train)
+        X_train = X_train.reshape(X_train.shape[0],X_train.shape[1],X_train.shape[2],1)
+        model.fit(x=X_train,
+               y=y_train,
+               batch_size=self.cnn_batch_size,
+               epochs=self.cnn_epochs,
+               verbose=self.verbose,
+               validation_split=self.validation_split)
+        prediction = model.predict(x=X_train)
+        print("Training Score", log_loss(y_train, prediction))
         print(prediction.reshape(prediction.shape[0]))
         print(y_train)

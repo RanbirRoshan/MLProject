@@ -64,6 +64,7 @@ def get_feature_importance_val(X, Y, apply_feature_selection):
 def load_LSTM_file(file_name):
     data = just_load_data(file_name)
     data = data[:3421]
+    data = Normalizer(norm='l1').fit_transform(data)
     return data.T
 
 
@@ -79,8 +80,8 @@ def load_LSTM_data(file_name, train_percent, folder_name, apply_feature_selectio
     le = LabelEncoder()
     le.fit(Y)
     Y = le.transform(Y)
-    X_train, X_test, y_train, y_test = get_test_train_set_split(z, Y, train_percent)
+    #X_train, X_test, y_train, y_test = get_test_train_set_split(z, Y, train_percent)
     is_multi_class = False
     #if Y.unique().shape[0]>2:
     #    is_multi_class = True
-    return X_train, X_test, y_train, y_test, is_multi_class
+    return z, None, Y, None, is_multi_class
