@@ -12,8 +12,8 @@ epochs = 20
 batch_size = 2
 lstm_epochs = 20
 lstm_batch_size = 16
-cnn_epochs = 20
-cnn_batch_size = 16
+cnn_epochs = 120
+cnn_batch_size = 64
 
 def main():
 

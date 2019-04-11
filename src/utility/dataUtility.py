@@ -75,7 +75,7 @@ def load_LSTM_file(file_name):
 def load_LSTM_data(file_name, train_percent, folder_name, apply_feature_selection=False):
     X, Y = load_raw_data(file_name)
     X = X.loc[:, X.columns.isin(['LSTMFileLoc'])]
-    d = load_LSTM_file(folder_name + "/" + X.LSTMFileLoc[0])
+    d = load_LSTM_file(folder_name + "//" + X.LSTMFileLoc[0])
     z = numpy.zeros((X.shape[0],d.shape[0],d.shape[1]))
     for i in range (0, X.shape[0]):
         file = folder_name + "/" + X.LSTMFileLoc[i]
