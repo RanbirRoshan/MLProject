@@ -7,6 +7,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.utils import shuffle
 from keras.preprocessing import sequence
 import numpy
+import random
 
 
 def just_load_data (data_file_name):
@@ -14,9 +15,12 @@ def just_load_data (data_file_name):
     return shuffle(data)
 
 
-def load_raw_data(data_file_name):
+def load_raw_data(data_file_name, percent=1):
     data = just_load_data(data_file_name)
     data = data.drop(labels=["filename"], axis=1)
+    if (percent<1):
+        sample = int(percent*data.shape[0]/2)
+        data = data.groupby("label").apply(lambda x :x.sample(sample))
     data = shuffle(data)
     X = data.drop(labels=["label"], axis=1)
     Y = data.loc[:, data.columns.isin(['label'])]
@@ -73,7 +77,7 @@ def load_LSTM_file(file_name):
 
 
 def load_LSTM_data(file_name, train_percent, folder_name, apply_feature_selection=False):
-    X, Y = load_raw_data(file_name)
+    X, Y = load_raw_data(file_name, 1)
     X = X.loc[:, X.columns.isin(['LSTMFileLoc'])]
     d = load_LSTM_file(folder_name + "//" + X.LSTMFileLoc[0])
     z = numpy.zeros((X.shape[0],d.shape[0],d.shape[1]))
