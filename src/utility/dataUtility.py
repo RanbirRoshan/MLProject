@@ -5,6 +5,7 @@ from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.feature_selection import SelectFromModel
 from sklearn.preprocessing import LabelEncoder
 from sklearn.utils import shuffle
+from keras.preprocessing import sequence
 import numpy
 
 
@@ -16,6 +17,7 @@ def just_load_data (data_file_name):
 def load_raw_data(data_file_name):
     data = just_load_data(data_file_name)
     data = data.drop(labels=["filename"], axis=1)
+    data = shuffle(data)
     X = data.drop(labels=["label"], axis=1)
     Y = data.loc[:, data.columns.isin(['label'])]
     return X, Y
@@ -63,8 +65,10 @@ def get_feature_importance_val(X, Y, apply_feature_selection):
 
 def load_LSTM_file(file_name):
     data = just_load_data(file_name)
-    data = data[:3421]
-    data = Normalizer(norm='l1').fit_transform(data)
+    data = data.drop(labels=["seq"], axis=1)
+    data = data[:5000]
+    data = numpy.pad (data, ((0,5000-data.shape[0]),(0,0)), 'constant', constant_values=0)
+    data = Normalizer(norm='l2').fit_transform(data)
     return data.T
 
 
