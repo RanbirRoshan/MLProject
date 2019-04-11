@@ -2,6 +2,8 @@ from src.neuralNets import  SingleLayerNN
 from sklearn.metrics import classification_report, log_loss
 from src.neuralNets import LSTM
 from src.neuralNets import CNN
+from keras.callbacks import LambdaCallback
+import matplotlib.pyplot as plt
 
 
 class NeuralNet:
@@ -68,12 +70,32 @@ class NeuralNet:
     def ExecuteCNN(self,  X_train, X_test, y_train, y_test):
         model = CNN.GetCNNModel(X_train)
         X_train = X_train.reshape(X_train.shape[0],X_train.shape[1],X_train.shape[2],1)
+
+        self.y_prev = model.predict(X_train)
+
+        def epoch_end_activity(epoch, logs):
+            res = model.predict(X_train)
+            plt.plot(0,0)
+            plt.plot(1,0)
+            for i in range (0, y_train.shape[0]):
+                if y_train[i] == 0:
+                    plt.plot([self.y_prev[i][0], res[i][0]], [i / 20, i / 20], color='green')
+                    plt.plot(res[i][0], i / 20, markersize=0.5, marker='o', color='yellow', )
+                else:
+                    plt.plot([self.y_prev[i][0], res[i][0]], [i / 20, i / 20], color='red')
+                    plt.plot(res[i][0],i/20, markersize=0.5, marker='o', color='blue',)
+            plt.show()
+            self.y_prev = res
+
+        testmodelcallback = LambdaCallback(on_epoch_end=epoch_end_activity)
+
         model.fit(x=X_train,
                y=y_train,
                batch_size=self.cnn_batch_size,
                epochs=self.cnn_epochs,
                verbose=self.verbose,
-               validation_split=self.validation_split)
+               validation_split=self.validation_split,
+               callbacks=[testmodelcallback])
         prediction = model.predict(x=X_train)
         print("Training Score", log_loss(y_train, prediction))
         print(prediction.reshape(prediction.shape[0]))
