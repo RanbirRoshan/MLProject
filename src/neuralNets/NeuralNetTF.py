@@ -80,10 +80,10 @@ class NeuralNet:
             for i in range (0, y_train.shape[0]):
                 if y_train[i] == 0:
                     plt.plot([self.y_prev[i][0], res[i][0]], [i / 20, i / 20], color='yellow')
-                    plt.plot(res[i][0], i / 20, markersize=0.5, marker='o', color='green', )
+                    plt.plot(res[i][0], i / 20, markersize=0.5, marker='o', color='green')
                 else:
                     plt.plot([self.y_prev[i][0], res[i][0]], [i / 20, i / 20], color='red')
-                    plt.plot(res[i][0],i/20, markersize=0.5, marker='o', color='blue',)
+                    plt.plot(res[i][0],i/20, markersize=0.5, marker='o', color='blue')
             plt.show()
             self.y_prev = res
 
