@@ -12,7 +12,7 @@ import random
 
 def just_load_data (data_file_name):
     data = pandas.read_csv(data_file_name, encoding = "ISO-8859-1")
-    return shuffle(data)
+    return data.sample(frac=1).reset_index(drop=True)
 
 
 def load_raw_data(data_file_name, percent=1):
@@ -21,9 +21,8 @@ def load_raw_data(data_file_name, percent=1):
     if (percent<1):
         sample = int(percent*data.shape[0]/2)
         data = data.groupby("label").apply(lambda x :x.sample(sample))
-    data = shuffle(data)
-    X = data.drop(labels=["label"], axis=1)
     Y = data.loc[:, data.columns.isin(['label'])]
+    X = data.drop(labels=["label"], axis=1)
     return X, Y
 
 
@@ -78,6 +77,7 @@ def load_LSTM_file(file_name):
 
 def load_LSTM_data(file_name, train_percent, folder_name, apply_feature_selection=False):
     X, Y = load_raw_data(file_name, 1)
+    names = X.loc[:, X.columns.isin(['LSTMFileLoc'])]
     X = X.loc[:, X.columns.isin(['LSTMFileLoc'])]
     d = load_LSTM_file(folder_name + "//" + X.LSTMFileLoc[0])
     z = numpy.zeros((X.shape[0],d.shape[0],d.shape[1]))
@@ -87,9 +87,10 @@ def load_LSTM_data(file_name, train_percent, folder_name, apply_feature_selectio
         z[i]=d
     le = LabelEncoder()
     le.fit(Y)
+    print("Label [0,1] : ", le.inverse_transform([0,1]))
     Y = le.transform(Y)
     #X_train, X_test, y_train, y_test = get_test_train_set_split(z, Y, train_percent)
     is_multi_class = False
     #if Y.unique().shape[0]>2:
     #    is_multi_class = True
-    return z, None, Y, None, is_multi_class
+    return z, None, Y, None, is_multi_class, names

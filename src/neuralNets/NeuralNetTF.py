@@ -67,18 +67,25 @@ class NeuralNet:
         print(prediction.reshape(prediction.shape[0]))
         print(y_train)
 
-    def ExecuteCNN(self,  X_train, X_test, y_train, y_test):
+    def ExecuteCNN(self,  X_train, X_test, y_train, y_test, song_names):
         model = CNN.GetCNNModel(X_train)
         X_train = X_train.reshape(X_train.shape[0],X_train.shape[1],X_train.shape[2],1)
 
         self.y_prev = model.predict(X_train)
-
+        p = y_train
+        self.epoch_plot = 1
         def epoch_end_activity(epoch, logs):
             res = model.predict(X_train)
             plt.plot(0,0)
             plt.plot(1,0)
+            plt.title("Epoch : " + str(self.epoch_plot))
             for i in range (0, y_train.shape[0]):
-                if y_train[i] == 0:
+                if (p[i] != y_train[i]):
+                    print ("HHHHHHHHHHHHHHHHHHHHHHHHHHHHH", i)
+                if abs(p[i] - res[i][0]) > 0.8:
+                    print(song_names.LSTMFileLoc[i], " Label: ", p[i], " ", y_train[i],  " Error in prediction: ",
+                          abs(p[i] - res[i][0]))
+                if p[i] == 0:
                     plt.plot([self.y_prev[i][0], res[i][0]], [i / 20, i / 20], color='yellow')
                     plt.plot(res[i][0], i / 20, markersize=0.5, marker='o', color='green')
                 else:
@@ -98,5 +105,17 @@ class NeuralNet:
                callbacks=[testmodelcallback])
         prediction = model.predict(x=X_train)
         print("Training Score", log_loss(y_train, prediction))
+
+        #final prediction
+        self.y_prev = model.predict(X_train)
+        plt.title("The Result")
+        for i in range (0, y_train.shape[0]):
+            if abs(y_train[i] - self.y_prev[i][0]) > 0.6:
+                print (song_names.LSTMFileLoc[i], " Label: ", y_train[i], " Error in prediction: ", abs(y_train[i] - self.y_prev[i][0]))
+            if y_train[i] == 0:
+                plt.plot(self.y_prev[i][0], i / 20, markersize=2, marker='o', color='green')
+            else:
+                plt.plot(self.y_prev[i][0], i / 20, markersize=2, marker='o', color='blue')
+        plt.show()
         print(prediction.reshape(prediction.shape[0]))
         print(y_train)
