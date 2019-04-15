@@ -5,9 +5,7 @@ from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.feature_selection import SelectFromModel
 from sklearn.preprocessing import LabelEncoder
 from sklearn.utils import shuffle
-from keras.preprocessing import sequence
 import numpy
-import random
 
 
 def just_load_data (data_file_name):

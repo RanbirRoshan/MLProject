@@ -1,4 +1,4 @@
-from src.utility import musicUtility
+#from src.utility import musicUtility
 import sys
 from src.utility import TestJson
 from src.utility import dataUtility
@@ -12,7 +12,7 @@ epochs = 20
 batch_size = 2
 lstm_epochs = 20
 lstm_batch_size = 16
-cnn_epochs = 60
+cnn_epochs = 10
 cnn_batch_size = 32
 
 
@@ -21,6 +21,8 @@ def main():
     random.seed(a=5)
     # define constants here
     data_file_name = 'data_prof_temp.csv' #'data.csv'#
+    use_prev_wait = True
+    just_validate = False
 
     #musicUtility.generate_music_data("TrainingData", data_file_name, "music_csv_data")
 
@@ -36,7 +38,7 @@ def main():
     nn = NeuralNet(batch_size, epochs, X_train, X_test, y_train, y_test, is_multi_class, lstm_batch_size, lstm_epochs, cnn_batch_size, cnn_epochs)
     #nn.Execute()
     #nn.ExecuteLSTM(X_train_LSTM, X_testLSTM, y_train_LSTM, y_test_LSTM)
-    nn.ExecuteCNN(X_train_LSTM, X_testLSTM, y_train_LSTM, y_test_LSTM, song_det)
+    nn.ExecuteCNN(X_train_LSTM, X_testLSTM, y_train_LSTM, y_test_LSTM, song_det, use_prev_wait, just_validate)
 
 if __name__ == '__main__':
     main()
