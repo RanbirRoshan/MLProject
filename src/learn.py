@@ -12,7 +12,7 @@ epochs = 20
 batch_size = 2
 lstm_epochs = 20
 lstm_batch_size = 16
-cnn_epochs = 10
+cnn_epochs = 40
 cnn_batch_size = 32
 
 
@@ -21,7 +21,7 @@ def main():
     random.seed(a=5)
     # define constants here
     data_file_name = 'data_prof_temp.csv' #'data.csv'#
-    use_prev_wait = True
+    use_prev_wait = False
     just_validate = False
 
     #musicUtility.generate_music_data("TrainingData", data_file_name, "music_csv_data")

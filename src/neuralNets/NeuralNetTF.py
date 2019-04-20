@@ -22,7 +22,7 @@ class NeuralNet:
         self.cnn_epochs = cnn_epochs
         self.lstm_epochs = lstm_epochs
         self.mp = True
-        self.validation_split = 0.2
+        self.validation_split = 0.1
         self.verbose = 2 #0 = silent, 1 = progress bar, 2 = one line per epoch.
 
 
