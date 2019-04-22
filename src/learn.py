@@ -5,6 +5,7 @@ from src.utility import dataUtility
 from src.baseline_implementation import baseline
 from src.neuralNets.NeuralNetTF import NeuralNet
 import random
+import os
 
 
 #constanst
@@ -12,12 +13,18 @@ epochs = 20
 batch_size = 2
 lstm_epochs = 20
 lstm_batch_size = 16
-cnn_epochs = 40
-cnn_batch_size = 32
+cnn_epochs = 5
+cnn_batch_size = 16
 
 
 def main():
 
+    #data_format = NCHW
+
+    os.environ['KMP_AFFINITY'] = 'granularity=fine,compact,1,0'
+    os.environ['OMP_NUM_THREADS'] = '4'
+    os.environ['KMP_SETTINGS'] = 'TRUE'
+    os.environ['KMP_BLOCKTIME'] = '1'
     random.seed(a=5)
     # define constants here
     data_file_name = 'data_prof_temp.csv' #'data.csv'#

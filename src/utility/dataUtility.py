@@ -27,7 +27,7 @@ def load_raw_data(data_file_name, percent=1):
 def load_data(data_file_name, apply_feature_selection=False):
     data = pandas.read_csv(data_file_name, encoding = "ISO-8859-1")
     data = data.drop(labels=["filename"], axis=1)
-    data = shuffle(data)
+    data = data.sample(frac=1).reset_index(drop=True)
     X, Y = load_raw_data(data_file_name)
     X = data.drop(labels=["label","LSTMFileLoc"], axis=1).as_matrix()
     le = LabelEncoder()
@@ -67,8 +67,8 @@ def get_feature_importance_val(X, Y, apply_feature_selection):
 def load_LSTM_file(file_name):
     data = just_load_data(file_name)
     data = data.drop(labels=["seq"], axis=1)
-    data = data[:5000]
-    data = numpy.pad (data, ((0,5000-data.shape[0]),(0,0)), 'constant', constant_values=0)
+    data = data[:15000]
+    data = numpy.pad (data, ((0,15000-data.shape[0]),(0,0)), 'constant', constant_values=0)
     data = Normalizer(norm='l2').fit_transform(data)
     return data.T
 
